@@ -1,0 +1,62 @@
+.cue {
+  position: absolute;
+  z-index: var(--z-interface);
+  left: var(--space-page);
+  bottom: clamp(1.25rem, 3svh, 2.25rem);
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  text-decoration: none;
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  transition: opacity 0.8s var(--ease-out);
+}
+
+.hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.line {
+  position: relative;
+  width: 3.5rem;
+  height: 1px;
+  overflow: hidden;
+  background: var(--color-line);
+}
+
+/* A bead of light travelling along the line */
+.line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(to right, transparent, var(--color-gold-light), transparent);
+  animation: travel 3.6s var(--ease-breathe) infinite;
+}
+
+@keyframes travel {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+/* On tall screens the stupa's base fills the bottom edge, and touch
+   readers scroll without being asked */
+@media (max-aspect-ratio: 1/1) {
+  .cue {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line::after {
+    animation: none;
+    opacity: 0;
+  }
+}

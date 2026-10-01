@@ -1,0 +1,76 @@
+/*
+ * Design tokens.
+ * The night palette is sampled from the sky of the Himalaya photograph
+ * (#0e2338 at its darkest blue); the golds come from the alpenglow on its
+ * snow (#a78755 → #e3c48f). Architecture is warm, environment is cold.
+ */
+:root {
+  /* Night, from deepest to the photo's own sky */
+  --color-night-950: #05080f;
+  --color-night-900: #070b14;
+  --color-night-800: #0b1424;
+  --color-night-700: #0e2338;
+  --color-dusk-600: #1b3350;
+  --color-dusk-400: #3d5677;
+
+  /* Stone and lime-wash */
+  --color-ivory: #ece5d6;
+  --color-stone: #cfc6b2;
+  --color-stone-shadow: #8f8673;
+
+  /* Gold, sampled from alpenglow */
+  --color-gold: #c49a52;
+  --color-gold-muted: #8a6a38;
+  --color-gold-light: #e3c48f;
+  --color-bronze: #7a5230;
+  --color-amber: #e5b565;
+  --color-lamp: #f2c879;
+
+  /* Cloth */
+  --color-sindoor: #8e2a22;
+  --flag-blue: #2d5690;
+  --flag-white: #d8d2c3;
+  --flag-red: #9e3a2e;
+  --flag-green: #3a6a46;
+  --flag-yellow: #c49b3c;
+
+  /* Text */
+  --color-text: #efe9dc;
+  --color-text-muted: rgba(239, 233, 220, 0.68);
+  --color-text-faint: rgba(239, 233, 220, 0.56);
+  --color-line: rgba(196, 154, 82, 0.38);
+
+  /* Type */
+  --font-display: 'Cormorant Garamond Variable', 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-devanagari: 'Noto Serif Devanagari', 'Kohinoor Devanagari', 'Devanagari Sangam MN', serif;
+  --font-tibetan: 'Jomolhari Mantra', 'Noto Serif Tibetan', 'Microsoft Himalaya', serif;
+
+  --text-eyebrow: 0.6875rem;
+  --text-small: 0.8125rem;
+  --text-body: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
+  --text-lead: clamp(1.25rem, 1.05rem + 0.8vw, 1.6rem);
+  --text-heading: clamp(2.4rem, 1.6rem + 3.2vw, 4.4rem);
+  --text-display: clamp(3rem, 1.8rem + 5vw, 6.25rem);
+  --tracking-wide: 0.32em;
+
+  /* Space */
+  --space-page: clamp(1.25rem, 0.6rem + 3vw, 3.5rem);
+  --space-section: clamp(6rem, 4rem + 10vw, 12rem);
+  --measure: 34rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-breathe: cubic-bezier(0.45, 0, 0.55, 1);
+
+  /* Hero layering */
+  --z-sky: 0;
+  --z-mountains: 1;
+  --z-atmosphere: 2;
+  --z-flags-back: 3;
+  --z-stupa: 4;
+  --z-flags-front: 5;
+  --z-foreground: 6;
+  --z-interface: 7;
+  --z-navigation: 8;
+}
