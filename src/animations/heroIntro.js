@@ -35,5 +35,6 @@ export function createHeroIntro(root) {
   return () => {
     remove();
     tl.kill();
+    flagReveal.value = 1;
   };
 }

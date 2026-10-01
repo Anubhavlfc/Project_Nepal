@@ -6,7 +6,7 @@
 
   position: relative;
   height: 100svh;
-  min-height: 34rem;
+  min-height: 20rem;
   overflow: hidden;
   isolation: isolate;
   background:
@@ -218,6 +218,37 @@
   }
 
   /* the base fills the bottom edge here; the corners stay clear */
+  .coordinates {
+    display: none;
+  }
+}
+
+/* Short landscape screens (phones on their side): stupa to the right,
+   a smaller title to its left */
+@media (max-height: 500px) and (min-aspect-ratio: 3/2) {
+  .scene {
+    left: auto;
+    right: 0;
+    translate: none;
+  }
+
+  .intro {
+    top: 3.75rem;
+    max-width: 40vw;
+  }
+
+  .titleLatin {
+    font-size: clamp(2.2rem, 1rem + 7svh, 3.2rem);
+  }
+
+  .title {
+    margin: 0.6rem 0 0.75rem;
+  }
+
+  .tagline {
+    font-size: 1.05rem;
+  }
+
   .coordinates {
     display: none;
   }
