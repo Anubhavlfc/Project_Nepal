@@ -1,0 +1,13 @@
+/*
+ * Jomolhari (SIL Open Font License, see src/assets/fonts/Jomolhari-OFL.txt),
+ * subset to the glyphs of Om Mani Padme Hum with its shaping rules intact:
+ * 20 KB instead of the full 360 KB Tibetan face.
+ */
+@font-face {
+  font-family: 'Jomolhari Mantra';
+  src: url('../assets/fonts/jomolhari-mantra.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF;
+}
