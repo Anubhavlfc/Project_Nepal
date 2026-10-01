@@ -4,6 +4,8 @@ An interactive, single-page study of Nepal: the Himalaya at dusk, an illustrated
 Boudhanath Stupa, prayer flags in the wind and prayer wheels turned by hand.
 It is a static site built for GitHub Pages.
 
+**Live:** https://anubhavlfc.github.io/Project_Nepal/
+
 ## Run it
 
 ```bash
@@ -20,11 +22,10 @@ Node 20 or newer is required (CI uses Node 22).
 The workflow in `.github/workflows/deploy.yml` builds the site and publishes it
 with the official Pages actions on every push to `main`.
 
-1. Merge this work into `main`.
-2. On GitHub, open **Settings → Pages** and set **Source** to **GitHub Actions**
-   (one time only).
-3. Push to `main`, or run the workflow by hand from the **Actions** tab.
-4. The site appears at `https://<user>.github.io/<repository>/`.
+1. On GitHub, open **Settings → Pages** and set **Source** to **GitHub Actions**
+   (one time only; this repository is already set up).
+2. Push to `main`, or run the workflow by hand from the **Actions** tab.
+3. The site appears at `https://<user>.github.io/<repository>/`.
 
 `vite.config.js` uses a relative base (`./`), so asset URLs work under any
 repository name or a custom domain without changes. The site is one page with
