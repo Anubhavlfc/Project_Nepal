@@ -1,0 +1,349 @@
+/*
+ * The journey is tall; the stage sticks to the top of the screen while it
+ * scrolls past, and the chapters stick over the stage.
+ */
+.journey {
+  position: relative;
+  height: 420svh;
+}
+
+.stage {
+  /*
+   * One scene unit, in pixels. The overview fits the stupa from its finial
+   * to the top of the lowest terrace (926 units) into 90.5% of the height,
+   * so the base runs on below the fold; on tall, narrow screens the dome is
+   * sized to 110% of the width instead.
+   */
+  --u: min(calc(100svh * 0.905 / 926), calc(100vw * 1.1 / 672));
+  /* where the finial sits */
+  --tip: max(9.5svh, calc((100svh - 926 * var(--u)) * 0.42));
+
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  /* clip, not hidden: a focused wheel must not scroll the stage */
+  overflow: hidden;
+  overflow: clip;
+  background: #030407;
+  isolation: isolate;
+}
+
+.layer,
+.sky {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+}
+
+/* Z0 · the Himalaya, placed by Everest's summit (46% across and 29% down
+   the photograph), off to the left of the spire */
+.layer[data-depth='mountains'] {
+  z-index: var(--z-mountains);
+}
+
+.photo {
+  --w: max(120vw, 190svh);
+  position: absolute;
+  max-width: none;
+  width: var(--w);
+  height: auto;
+  left: calc(36vw - 0.46 * var(--w));
+  top: calc(35svh - 0.29 * var(--w) / 1.7532);
+  /* far and quiet: the range sinks toward the night */
+  opacity: 0.62;
+}
+
+/* Z1 · stars, only in the open sky above the range */
+.sky {
+  z-index: var(--z-sky);
+  -webkit-mask-image: linear-gradient(#000 0, #000 15svh, transparent 33svh);
+  mask-image: linear-gradient(#000 0, #000 15svh, transparent 33svh);
+}
+
+.stars {
+  position: absolute;
+  inset: -2%;
+  width: 104%;
+  height: 104%;
+  max-width: none;
+}
+
+.layer[data-depth='haze'] {
+  z-index: var(--z-atmosphere);
+}
+
+.flags {
+  position: absolute;
+  inset: 0;
+}
+
+.flagsBack {
+  z-index: var(--z-flags-back);
+}
+
+.flagsFront {
+  z-index: var(--z-flags-front);
+}
+
+/* Z4 · the stupa, laid out once at its overview size */
+.camera {
+  z-index: var(--z-stupa);
+  pointer-events: none;
+}
+
+.scene {
+  position: absolute;
+  width: calc(1600 * var(--u));
+  height: calc(1150 * var(--u));
+  left: calc(50% - 800 * var(--u));
+  top: calc(var(--tip) - 104 * var(--u));
+}
+
+.lights {
+  position: absolute;
+  inset: 0;
+}
+
+/* Z6 · warm light from the lamps below the frame */
+.foreground {
+  position: absolute;
+  inset: auto 0 0;
+  height: 34svh;
+  z-index: var(--z-foreground);
+  pointer-events: none;
+  background: radial-gradient(ellipse 58% 100% at 50% 100%, rgba(240, 178, 96, 0.11), rgba(240, 178, 96, 0) 72%);
+}
+
+/* Only on tall screens, see below */
+.veil {
+  display: none;
+}
+
+.night {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-night);
+  pointer-events: none;
+  background: #030407;
+  opacity: 0;
+}
+
+/* Z7 · text, set like a label beside an exhibit */
+.caption {
+  position: absolute;
+  z-index: var(--z-interface);
+  width: min(22rem, calc(100% - 2 * var(--space-page)));
+}
+
+.title {
+  left: var(--space-page);
+  top: clamp(2rem, 9svh, 6rem);
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 1.15rem + 1.1vw, 2.2rem);
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.nameNepali {
+  font-size: 0.56em;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--color-gold-light);
+}
+
+.place {
+  margin-top: 1.1rem;
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.line {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--color-line);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* The chapters ride over the stage */
+.chapters {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-top: -100svh;
+  z-index: var(--z-interface);
+  pointer-events: none;
+}
+
+.index {
+  font-size: 0.95rem;
+  color: var(--color-gold);
+}
+
+.label {
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 1.2rem + 1vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+.text {
+  margin-top: 0.9rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.hint {
+  margin-top: 0.9rem;
+  font-size: var(--text-small);
+  color: var(--color-gold-light);
+}
+
+.mantra {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 1.1rem;
+  row-gap: 0.3rem;
+  margin-top: 1rem;
+}
+
+.mantraTibetan {
+  font-family: var(--font-tibetan);
+  font-size: 1.6rem;
+  color: var(--color-gold-light);
+}
+
+.mantraLatin {
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.eyes,
+.spire {
+  left: var(--space-page);
+  top: 22svh;
+}
+
+.mandala {
+  left: var(--space-page);
+  bottom: 8svh;
+}
+
+.evening {
+  left: 50%;
+  top: 9svh;
+  width: min(36rem, calc(100% - 2 * var(--space-page)));
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chapters .caption {
+    opacity: 0;
+  }
+}
+
+/* Tall, narrow screens: a composition of their own. The whole stupa, from
+   finial to plaza, stands in the upper part of the frame, and the text sits
+   below it on the dark ground. */
+@media (max-aspect-ratio: 3/4) {
+  .stage {
+    --u: min(calc(100svh * 0.6 / 1006), calc(100vw * 0.95 / 672));
+    --tip: 10.5svh;
+  }
+
+  /* where the camera comes close, the night closes in under the text */
+  .veil {
+    display: block;
+    position: absolute;
+    inset: auto 0 0;
+    height: 56svh;
+    z-index: var(--z-foreground);
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(
+      rgba(3, 4, 7, 0),
+      rgba(3, 4, 7, 0.55) 22%,
+      rgba(3, 4, 7, 0.9) 40%,
+      rgba(3, 4, 7, 0.97) 52%
+    );
+  }
+
+  .photo {
+    --w: max(105svh, 150vw);
+    left: calc(22vw - 0.46 * var(--w));
+    top: calc(34svh - 0.29 * var(--w) / 1.7532);
+  }
+
+  .title {
+    top: auto;
+    bottom: 4svh;
+  }
+
+  .eyes,
+  .spire,
+  .mandala,
+  .evening {
+    left: var(--space-page);
+    top: auto;
+    bottom: 5svh;
+    transform: none;
+    text-align: left;
+  }
+
+  .mantra {
+    justify-content: flex-start;
+  }
+}
+
+/* Without motion the stage is a still picture and the chapters follow it */
+@media (prefers-reduced-motion: reduce) {
+  .journey {
+    height: auto;
+  }
+
+  .stage {
+    position: relative;
+  }
+
+  .chapters {
+    position: static;
+    height: auto;
+    margin: 0;
+    display: grid;
+    gap: 3.5rem;
+    padding: var(--space-section) var(--space-page) 0;
+    pointer-events: auto;
+  }
+
+  .chapters .caption {
+    position: static;
+    transform: none;
+    text-align: left;
+  }
+
+  .mantra {
+    justify-content: flex-start;
+  }
+}

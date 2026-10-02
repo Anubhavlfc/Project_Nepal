@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "An immersive single-page study of the Himalaya and Boudhanath, built for GitHub Pages.",
+  "description": "A digital portrait of Boudhanath Stupa in Kathmandu, built for GitHub Pages.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -1,7 +1,3 @@
-.wheel {
-  --turn-duration: 5.5s;
-}
-
 .mantra {
   font-family: var(--font-tibetan);
   font-size: 30px;
@@ -23,38 +19,10 @@
   transition: opacity 1.4s var(--ease-out);
 }
 
-/* Hover-driven wheels keep their angle when the pointer leaves: the
-   animation pauses rather than resetting. */
-.hover {
-  cursor: default;
-}
-
-.hover .strip {
-  animation: turn var(--turn-duration) linear infinite paused;
-}
-
-.hover:hover .strip {
-  animation-play-state: running;
-}
-
-.hover:hover .ornament,
 .active .ornament {
   opacity: 0.85;
 }
 
-.hover:hover .glow,
 .active .glow {
   opacity: 1;
-}
-
-@keyframes turn {
-  to {
-    transform: translateX(-124px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hover .strip {
-    animation: none;
-  }
 }

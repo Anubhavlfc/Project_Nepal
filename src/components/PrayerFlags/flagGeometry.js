@@ -3,8 +3,9 @@ import { createRandom, lerp } from '../../lib/random';
 /*
  * Builds one string of prayer flags.
  * The line is a quadratic curve that sags under its own weight; flags are
- * stitched along it by arc length with their top edge on the line. Each flag
- * gets its own height, phase, speed and swing so no two move in step.
+ * stitched along it by arc length with their top edge on the line. They
+ * are hand-made and old: each has its own width, length, spacing, phase,
+ * pace and amount of fading, and now and then one has torn away.
  */
 
 const SAMPLES = 240;
@@ -25,7 +26,6 @@ export function buildStrand({
   height = 26,
   gap = 4,
   grow = [1, 1], // flag scale at the start and end of the line (perspective)
-  bounds = [-Infinity, Infinity],
   seed = 1,
 }) {
   const random = createRandom(seed);
@@ -52,14 +52,15 @@ export function buildStrand({
   };
 
   const flags = [];
-  let s = 14;
+  let s = 10;
   let index = 0;
   while (s < length - 10) {
     const scale = lerp(grow[0], grow[1], s / length);
-    const w = width * scale;
+    const w = width * scale * (0.92 + random() * 0.16);
     const p0 = at(s);
     const p1 = at(Math.min(s + w, length));
-    if (p0.x >= bounds[0] && p0.x <= bounds[1]) {
+    const torn = random() < 0.035;
+    if (!torn) {
       flags.push({
         index,
         s,
@@ -69,16 +70,16 @@ export function buildStrand({
         y0: p0.y,
         x1: p1.x,
         y1: p1.y,
-        h: height * scale * (0.92 + random() * 0.16),
+        h: height * scale * (0.88 + random() * 0.2),
         phase: random() * Math.PI * 2,
-        speed: 1.3 + random() * 1.1,
-        swing: 0.1 + random() * 0.1,
-        shade: 0.84 + random() * 0.16,
+        speed: 0.7 + random() * 0.6,
+        swing: 0.05 + random() * 0.06,
+        age: random(),
       });
     }
-    s += w + gap * scale;
+    s += w + gap * scale * (0.6 + random() * 0.9);
     index += 1;
   }
 
-  return { points, length, flags, direction: Math.sign(to.x - from.x) || 1 };
+  return { points, length, flags };
 }

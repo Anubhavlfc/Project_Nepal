@@ -1,0 +1,34 @@
+.wheels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.wheel {
+  position: absolute;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: pan-y;
+  border-radius: 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wheel:active {
+  cursor: grabbing;
+}
+
+/* the wheel stands in its niche, under the arch */
+.wheel svg {
+  position: absolute;
+  left: 7%;
+  top: 14%;
+  width: 86%;
+  height: 86%;
+  overflow: visible;
+}

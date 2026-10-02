@@ -1,73 +1,35 @@
 .stupa {
+  display: block;
+  width: 100%;
+  height: 100%;
   overflow: visible;
 }
 
-/* Parts dim around the one in focus */
-.stupa [data-part] {
-  transition: opacity 0.9s var(--ease-out), filter 0.9s var(--ease-out);
+/* The intro's silhouettes, invisible unless it is playing */
+.stupa [data-shade] {
+  opacity: 0;
 }
 
-.stupa[data-focus] [data-part] {
-  opacity: 0.28;
+/* Lamps breathe slowly, three groups out of step */
+.breathe0,
+.breathe1,
+.breathe2 {
+  animation: breathe var(--breathe, 5.2s) var(--ease-breathe) infinite alternate;
 }
 
-.stupa[data-focus='base'] [data-part='base'],
-.stupa[data-focus='dome'] [data-part='dome'],
-.stupa[data-focus='harmika'] [data-part='harmika'],
-.stupa[data-focus='spire'] [data-part='spire'],
-.stupa[data-focus='pinnacle'] [data-part='pinnacle'] {
-  opacity: 1;
-  filter: drop-shadow(0 0 10px rgba(242, 200, 121, 0.35));
+.breathe1 {
+  --breathe: 6.9s;
+  animation-delay: -2.4s;
 }
 
-.domeSheen {
-  transform: translate(calc(var(--light-x, 0) * 46px), calc(var(--light-y, 0) * 26px));
-  transition: transform 1.6s var(--ease-out);
+.breathe2 {
+  --breathe: 4.3s;
+  animation-delay: -1.1s;
 }
 
-.shimmer {
-  animation: shimmer 16s var(--ease-breathe) infinite;
-  animation-delay: 4s;
-}
-
-.lampGroup0,
-.lampGroup1,
-.lampGroup2 {
-  animation: flicker var(--flicker, 4.2s) var(--ease-breathe) infinite alternate;
-}
-
-.lampGroup1 {
-  --flicker: 5.7s;
-  animation-delay: -2s;
-}
-
-.lampGroup2 {
-  --flicker: 3.3s;
-  animation-delay: -1s;
-}
-
-/* idle for most of the cycle, then one slow pass across the tiers */
-@keyframes shimmer {
-  0%,
-  55% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-  60% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(300px);
-    opacity: 0;
-  }
-}
-
-@keyframes flicker {
+@keyframes breathe {
   0% {
-    opacity: 0.72;
+    opacity: 0.8;
   }
   100% {
     opacity: 1;
@@ -75,14 +37,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .shimmer,
-  .lampGroup0,
-  .lampGroup1,
-  .lampGroup2 {
+  .breathe0,
+  .breathe1,
+  .breathe2 {
     animation: none;
-  }
-
-  .shimmer {
-    opacity: 0;
   }
 }

@@ -50,16 +50,9 @@ export function PrayerWheelDefs({ prefix }) {
   );
 }
 
-const PrayerWheel = forwardRef(function PrayerWheel(
-  { prefix, transform, mode = 'hover', active = false, ...rest },
-  stripRef,
-) {
+const PrayerWheel = forwardRef(function PrayerWheel({ prefix, active = false }, stripRef) {
   return (
-    <g
-      className={`${styles.wheel} ${mode === 'hover' ? styles.hover : ''} ${active ? styles.active : ''}`}
-      transform={transform}
-      {...rest}
-    >
+    <g className={active ? styles.active : undefined}>
       {/* axle and finial */}
       <rect x="47" y="0" width="6" height="16" fill="#3a2716" />
       <ellipse cx="50" cy="16" rx="6" ry="3" fill={`url(#${prefix}-gold)`} />
@@ -71,7 +64,7 @@ const PrayerWheel = forwardRef(function PrayerWheel(
       {/* body */}
       <rect x="14" y="42" width="72" height="86" fill={`url(#${prefix}-bronze)`} />
 
-      {/* lotus petals along the upper rim, brought forward on hover */}
+      {/* lotus petals along the upper rim, brought out when the wheel is touched */}
       <g className={styles.ornament} fill="none" stroke="#e8c98a" strokeWidth="1">
         {PETALS.map((x) => (
           <path key={x} d={`M${x} 52 Q${x + 4} 43 ${x + 8} 52`} />
@@ -99,7 +92,7 @@ const PrayerWheel = forwardRef(function PrayerWheel(
       <line x1="14" x2="86" y1="56" y2="56" stroke="#d9b46a" strokeWidth="1.2" />
       <line x1="14" x2="86" y1="114" y2="114" stroke="#d9b46a" strokeWidth="1.2" />
 
-      {/* cylinder shading and the warm light that gathers on hover */}
+      {/* cylinder shading, and the warm light that gathers when it is touched */}
       <rect x="14" y="42" width="72" height="86" fill={`url(#${prefix}-curve)`} />
       <rect className={styles.glow} x="10" y="30" width="80" height="106" fill={`url(#${prefix}-warm)`} />
 

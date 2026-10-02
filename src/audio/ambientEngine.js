@@ -1,8 +1,8 @@
 /*
  * Ambient sound, synthesised in the browser so no recorded audio needs to
- * be licensed or downloaded: mountain wind from filtered noise whose
- * colour and loudness drift slowly, and now and then a soft, distant
- * bowl-like tone. It starts only after the listener asks for it.
+ * be licensed or downloaded: evening air from filtered noise whose colour
+ * and loudness drift slowly, and now and then a singing bowl struck softly
+ * somewhere on the walk. It starts only after the listener asks for it.
  *
  * To use a recording instead, place it in public/audio/ and swap
  * createWind() for an <audio> element routed into `master`.
@@ -54,21 +54,36 @@ function createWind(ctx, destination) {
   return [source, ...sources];
 }
 
+/* A bowl's partials are not harmonics, and each is a close pair of tones
+   that beat slowly against each other; the higher ones die first. */
+const BOWL = [
+  { ratio: 1, level: 1, decay: 14, beat: 0.7 },
+  { ratio: 2.76, level: 0.4, decay: 9, beat: 1.4 },
+  { ratio: 5.4, level: 0.14, decay: 5, beat: 2.3 },
+];
+
 function strikeBowl(ctx, destination) {
   const now = ctx.currentTime;
-  const fundamental = 196 + Math.random() * 24;
-  [1, 2.71, 5.12].forEach((ratio, i) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = fundamental * ratio;
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.045 / (i + 1), now + 0.04);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 7 - i * 1.6);
-    osc.connect(gain).connect(destination);
-    osc.start(now);
-    osc.stop(now + 7.2);
-  });
+  const fundamental = 172 + Math.random() * 30;
+  // far off, so softened
+  const out = ctx.createBiquadFilter();
+  out.type = 'lowpass';
+  out.frequency.value = 1600;
+  out.connect(destination);
+  for (const { ratio, level, decay, beat } of BOWL) {
+    for (const side of [-0.5, 0.5]) {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.frequency.value = fundamental * ratio + side * beat;
+      // a felt mallet: a quick, soft onset, then the long ring
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.017 * level, now + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + decay);
+      osc.connect(gain).connect(out);
+      osc.start(now);
+      osc.stop(now + decay + 0.1);
+    }
+  }
 }
 
 export function createAmbientEngine() {
@@ -81,7 +96,7 @@ export function createAmbientEngine() {
     bowlTimer = window.setTimeout(() => {
       if (ctx?.state === 'running') strikeBowl(ctx, master);
       scheduleBowl();
-    }, 22000 + Math.random() * 26000);
+    }, 30000 + Math.random() * 30000);
   };
 
   return {

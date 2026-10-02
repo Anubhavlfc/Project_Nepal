@@ -1,8 +1,9 @@
-# Boudhanath · Between Earth, Sky, and Prayer
+# Boudhanath · Kathmandu, Nepal
 
-An interactive, single-page study of Nepal: the Himalaya at dusk, an illustrated
-Boudhanath Stupa, prayer flags in the wind and prayer wheels turned by hand.
-It is a static site built for GitHub Pages.
+A digital portrait of Boudhanath Stupa: an editorial illustration of the
+monument at nightfall, its eyes, its gilded spire, prayer flags in the evening
+breeze and prayer wheels turned by hand, with Everest far behind. Scrolling
+moves a camera over the one stupa. It is a static site built for GitHub Pages.
 
 **Live:** https://anubhavlfc.github.io/Project_Nepal/
 
@@ -36,48 +37,63 @@ hash links only, so refreshing never hits a missing route.
 ```
 src/
   components/
-    Hero/            the opening scene and its layer order
-    Stupa/           Boudhanath in layered SVG, plus its animated lights
-    PrayerFlags/     flag strings: sagging curves, per-flag flutter
-    PrayerWheels/    one wheel drawing; hover wheels and turnable wheels
-    Mountains/       the photograph and the valley rim silhouettes
-    Atmosphere/      stars (canvas), haze, rising lamp motes
-    Navigation/      side numbers, mobile menu, sound toggle, scroll cue
-    Sections/        Himalaya, Boudhanath study, Prayer, closing
-  animations/        GSAP: intro timeline, pointer parallax, scroll story
+    Journey/         the stage, its camera and the chapter labels
+    Stupa/           Boudhanath in layered SVG, its lamps and intro shades
+    PrayerFlags/     flag lines drawn on canvas in scene space
+    PrayerWheels/    the wheels in the niches of the lowest wall
+    Atmosphere/      stars (canvas) and one slow band of haze
+    Navigation/      नेपाल · Sound · About
+    About/           the closing note and credits
+  animations/        GSAP: the intro, and the scroll camera (ScrollTrigger)
   audio/             synthesised ambient sound (Web Audio)
   data/content.js    every line of copy, in one place
   styles/            design tokens, base styles, font faces
-public/images/       the Himalaya photograph at 768 and 1064 px (WebP)
+public/images/       the background photograph at five widths (WebP)
 ```
 
-## Hero layer order
+## How the stage works
 
-| z | layer | moves with pointer |
-|---|-------|--------------------|
-| 0 | sky gradient and stars | 1 px |
-| 1 | Himalaya photograph | 2 px |
-| 2 | haze and valley rim | 3 px |
-| 4 | scene: back flags, stupa, lights, front flags | 3–6 px |
-| 6 | lamp light on the plaza, motes, vignette | 7 px |
-| 7 | title and interface | none |
-| 8 | navigation | none |
+The stupa is laid out once, at its overview size, by CSS (`Journey.module.css`).
+Scrolling then drives one GSAP timeline that moves a camera over it
+(`components/Journey/camera.js`): a scene point, where it sits on screen and a
+zoom. Every layer follows the camera by its depth, so the far layers barely
+move, and the flag canvases apply the same mapping when they draw.
+
+| z | layer | follows the camera | pointer drift |
+|---|-------|--------------------|---------------|
+| 0 | Himalaya photograph | 10% | 1.5 px |
+| 1 | stars | 3% | 1 px |
+| 2 | haze | 14% | 2 px |
+| 3 | rear prayer flags | fully | 2.5 px |
+| 4 | the stupa, its lamps and wheels | fully | 3.5 px |
+| 5 | front prayer flags | fully | 5 px |
+| 6 | lamplight from below; on tall screens, the dark under the text | none | none |
+| 7 | the night falling at the end | none | none |
+| 8 | text | none | none |
+
+Pointer drift is for desktop only. Tall screens have their own composition:
+the whole stupa stands in the upper part of the frame and the text sits on the
+dark ground below it.
 
 ## Notes for editing
 
 - **Copy** lives in `src/data/content.js`. Lines marked as placeholders render
-  with a dotted gold underline until replaced, including the photo caption and
-  credit.
-- **Sound** is synthesised in the browser (filtered noise for wind, a rare soft
-  bowl tone), so no recording needs licensing. It is off on arrival and starts
-  only from the Sound button. To use a recording instead, see the note at the
-  top of `src/audio/ambientEngine.js`.
-- **Motion** respects `prefers-reduced-motion`: the intro, parallax, scroll
-  effects and ambient loops are switched off and the scene renders complete.
-  Turning a prayer wheel stays available because it is user-initiated.
+  with a dotted underline until replaced; the photograph credit is one.
+- **Camera stops** are in `src/animations/journey.js`, one set for wide screens
+  and one for tall ones.
+- **Sound** is synthesised in the browser (filtered noise for the evening air,
+  a rare, distant singing bowl), so no recording needs licensing. It is off on
+  arrival and starts only from the Sound button. To use a recording instead,
+  see the note at the top of `src/audio/ambientEngine.js`.
+- **Motion** respects `prefers-reduced-motion`: there is no intro, camera or
+  parallax, the picture is drawn complete and still, and the chapter texts
+  follow it as plain text. Turning a prayer wheel stays available because it
+  is user-initiated.
 - **Fonts** are self-hosted: Cormorant Garamond, Manrope and Noto Serif
   Devanagari via Fontsource, and Jomolhari (SIL OFL) subset to the mantra
   only, in `src/assets/fonts/`.
-- **The photograph** is 1064 px wide. It sits behind haze in the hero and is
-  shown at or below its native size in the Himalaya section. A larger original
-  can replace `public/images/himalaya-dusk-*.webp` at the same names.
+- **The photograph** (2998 × 1710) is served at 900, 1440, 1920, 2560 and its
+  native 2998 px. Screens up to about 2560 px wide show it at or below its
+  native size; it sits far back, at 62% opacity. A new background can replace
+  `public/images/background-*.webp` at the same names; its placement is set by
+  the summit's position in `Journey.module.css`.
