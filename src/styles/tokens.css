@@ -1,12 +1,12 @@
 /*
  * Design tokens.
- * The night palette is sampled from the sky of the Himalaya photograph
- * (#0e2338 at its darkest blue); the golds come from the alpenglow on its
- * snow (#a78755 → #e3c48f). Architecture is warm, environment is cold.
+ * The night is sampled from the sky of the Everest photograph after its
+ * grade (#030407 at the top of the frame); the golds are aged gilding.
+ * Architecture is warm, environment is cold.
  */
 :root {
   /* Night, from deepest to the photo's own sky */
-  --color-night-950: #05080f;
+  --color-night-950: #030407;
   --color-night-900: #070b14;
   --color-night-800: #0b1424;
   --color-night-700: #0e2338;
@@ -18,7 +18,7 @@
   --color-stone: #cfc6b2;
   --color-stone-shadow: #8f8673;
 
-  /* Gold, sampled from alpenglow */
+  /* Gold, as aged gilding catching lamplight */
   --color-gold: #c49a52;
   --color-gold-muted: #8a6a38;
   --color-gold-light: #e3c48f;
@@ -63,14 +63,15 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-breathe: cubic-bezier(0.45, 0, 0.55, 1);
 
-  /* Hero layering */
-  --z-sky: 0;
-  --z-mountains: 1;
+  /* Stage layering, back to front */
+  --z-mountains: 0;
+  --z-sky: 1;
   --z-atmosphere: 2;
   --z-flags-back: 3;
   --z-stupa: 4;
   --z-flags-front: 5;
   --z-foreground: 6;
-  --z-interface: 7;
-  --z-navigation: 8;
+  --z-night: 7;
+  --z-interface: 8;
+  --z-navigation: 9;
 }
